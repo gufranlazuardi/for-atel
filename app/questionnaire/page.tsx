@@ -17,6 +17,8 @@ export default function QuestionnairePage() {
   const { currentStep, answers, direction, setAnswer, nextStep, prevStep } =
     useQuestionStore();
 
+  const cardRef = useRef<HTMLDivElement>(null);
+
   const currentAnswer = answers[currentStep];
   const hasAnswer = currentAnswer !== undefined;
   const isLastQuestion = currentStep === questions.length - 1;
@@ -27,6 +29,10 @@ export default function QuestionnairePage() {
       if (isAnim.current) return;
       isAnim.current = true;
       const card = bodyRef.current?.querySelector(".q-card-wrap");
+      if (!card) {
+        onComplete();
+        return;
+      }
       gsap.to(card, {
         x: dir === "left" ? -60 : 60,
         opacity: 0,
@@ -77,7 +83,7 @@ export default function QuestionnairePage() {
         ref={bodyRef}
         className="flex-1 flex flex-col justify-center px-7 overflow-hidden"
       >
-        <div className="q-card-wrap">
+        <div ref={cardRef} className="q-card-wrap">
           <QuestionCard
             key={currentStep}
             question={questions[currentStep]}
