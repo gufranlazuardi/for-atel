@@ -26,10 +26,15 @@ export default function ResultPage() {
   const result = questions.map((question, index) => {
     const selectedIndex = answers[index];
 
+    const selectedOption =
+      selectedIndex !== undefined
+        ? question.options[selectedIndex]
+        : undefined;
+
     return {
       question: question.question,
-      answer: question.options[selectedIndex]?.text,
-      icon: question.options[selectedIndex]?.icon,
+      answer: selectedOption?.text,
+      icon: selectedOption?.icon,
     };
   });
 
